@@ -11,6 +11,7 @@ import com.valtiel.forgeOps.exception.ResourceNotFoundException;
 import com.valtiel.forgeOps.mapper.userMapper.UserMapper;
 import com.valtiel.forgeOps.repository.RoleRepository;
 import com.valtiel.forgeOps.repository.UserRepository;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -19,9 +20,11 @@ import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService{
+
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private UserMapper userMapper;
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public List<SimpleUserDTO> getUsers() {
@@ -64,8 +67,7 @@ public class UserServiceImpl implements UserService{
 
         User user = User.builder()
                 .username(createUserDTO.username())
-                //Debo encriptar la contraseña (PENDIENTE)
-                .password(createUserDTO.password())
+                .password(passwordEncoder.encode(createUserDTO.password()))
                 .email(createUserDTO.email())
                 .roles(roles)
                 .build();
