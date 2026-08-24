@@ -11,6 +11,7 @@ import com.valtiel.forgeOps.exception.ResourceNotFoundException;
 import com.valtiel.forgeOps.mapper.userMapper.UserMapper;
 import com.valtiel.forgeOps.repository.RoleRepository;
 import com.valtiel.forgeOps.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,12 +20,13 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService{
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
-    private UserMapper userMapper;
-    private PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final UserMapper userMapper;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public List<SimpleUserDTO> getUsers() {
