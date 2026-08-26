@@ -24,7 +24,7 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private String generateToken(UserDetails userDetails) {
+    public String generateToken(UserDetails userDetails) {
         return Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(new Date())
@@ -33,7 +33,7 @@ public class JwtService {
                 .compact();
     }
 
-    private Claims extractClaims(String token) {
+    public Claims extractClaims(String token) {
 
         try {
 
@@ -56,11 +56,11 @@ public class JwtService {
         }
     }
 
-    private String extractUsername(String token) {
+    public String extractUsername(String token) {
         return extractClaims(token).getSubject();
     }
 
-    private void validateToken(String token, String username) {
+    public void validateToken(String token, String username) {
 
         Claims claims = extractClaims(token);
 

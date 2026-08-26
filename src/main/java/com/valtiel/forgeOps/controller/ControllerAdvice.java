@@ -2,6 +2,7 @@ package com.valtiel.forgeOps.controller;
 
 import com.valtiel.forgeOps.dto.errorDTO.ErrorResponseDTO;
 import com.valtiel.forgeOps.exception.DuplicateResourceException;
+import com.valtiel.forgeOps.exception.InvalidCredentialsException;
 import com.valtiel.forgeOps.exception.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.jspecify.annotations.Nullable;
@@ -62,5 +63,18 @@ public class ControllerAdvice extends ResponseEntityExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponseDTO> handleInvalidCredentialsException(InvalidCredentialsException exception, HttpServletRequest request) {
+        ErrorResponseDTO errorResponse = new ErrorResponseDTO(
+                HttpStatus.UNAUTHORIZED.value(),
+                "Error de autenticación",
+                exception.getMessage(),
+                LocalDateTime.now(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 }
